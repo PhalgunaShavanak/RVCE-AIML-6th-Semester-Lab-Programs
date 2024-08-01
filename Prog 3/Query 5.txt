@@ -1,0 +1,41 @@
+-- Load the data from the CSV file
+ratings = LOAD 'ratings5.csv' USING PigStorage(',') AS (MovieId:int, Title:chararray, UserId:int, Ratings:float, GenerId:int);
+
+-- Dump a sample of the data to verify
+DUMP ratings;
+
+-- Group the data by MovieId to calculate statistics
+grouped_ratings = GROUP ratings BY MovieId;
+
+-- Generate statistics for each movie
+movie_stats = FOREACH grouped_ratings GENERATE 
+    group AS MovieId,
+    MAX(ratings.Ratings) AS maxRating,
+    MIN(ratings.Ratings) AS minRating,
+    AVG(ratings.Ratings) AS avgRating;
+
+-- Dump movie_stats to verify
+DUMP movie_stats;
+
+-- Perform a LEFT JOIN to include all movie statistics with titles
+joined = JOIN movie_stats BY MovieId LEFT OUTER, ratings BY MovieId;
+
+-- Dump the joined data to verify
+DUMP joined;
+
+-- Project the necessary fields: MovieId, Title, maxRating, minRating, avgRating
+final_stats = FOREACH joined GENERATE 
+    ratings.Title AS Title,
+    ratings.MovieId AS MovieId,
+    movie_stats.maxRating AS maxRating,
+    movie_stats.minRating AS minRating,
+    movie_stats.avgRating AS avgRating;
+
+-- Dump final_stats to verify before applying DISTINCT
+DUMP final_stats;
+
+-- Remove duplicates if any (due to joining on the same MovieId)
+distinct_stats = DISTINCT final_stats;
+
+-- Output the results
+DUMP distinct_stats;

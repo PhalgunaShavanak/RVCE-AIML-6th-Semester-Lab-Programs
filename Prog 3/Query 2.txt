@@ -1,0 +1,22 @@
+Task B: List All Users Who Have Rated the Same Movie and Find the Number of Ratings
+
+
+ratings = LOAD 'ratings2.csv' USING PigStorage(',') AS (MovieId:int, Title:chararray, UserId:int, Ratings:float, GenerId:int);
+
+
+grouped_by_movie = GROUP ratings BY MovieId;
+
+
+user_rating_count_by_movie = FOREACH grouped_by_movie {
+
+
+ users = ratings.UserId;
+
+
+ GENERATE group AS MovieId, users, COUNT(users) AS numRatings;
+
+
+};
+
+
+DUMP user_rating_count_by_movie;

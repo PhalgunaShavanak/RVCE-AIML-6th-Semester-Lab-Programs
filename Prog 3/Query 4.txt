@@ -1,0 +1,19 @@
+Task D: Find the Count of Movies with Ratings Greater Than 3
+
+
+ratings = LOAD 'ratings4.csv' USING PigStorage(',') AS (MovieId:int, Title:chararray, UserId:int, Ratings:float, GenerId:int);
+
+
+high_ratings = FILTER ratings BY Ratings > 3;
+
+
+grouped_high_ratings = GROUP high_ratings BY MovieId;
+
+
+high_rating_count = FOREACH grouped_high_ratings GENERATE group AS MovieId, COUNT(high_ratings) AS numHighRatings;
+
+
+high_rating_movie_count = FILTER high_rating_count BY numHighRatings > 0;
+
+
+DUMP high_rating_movie_count;

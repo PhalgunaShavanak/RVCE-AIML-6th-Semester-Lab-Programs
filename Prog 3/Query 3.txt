@@ -1,0 +1,10 @@
+Task C: List All Users Who Have Rated at Least One Movie
+
+
+ratings = LOAD 'ratings3.csv' USING PigStorage(',') AS (MovieId:int, Title:chararray, UserId:int, Ratings:float, GenerId:int);
+
+
+unique_users = DISTINCT ratings.UserId;
+
+
+DUMP unique_users;

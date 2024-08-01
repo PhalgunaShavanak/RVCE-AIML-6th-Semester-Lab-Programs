@@ -1,0 +1,13 @@
+Task A: List All Movies and the Number of Ratings
+
+
+ratings = LOAD 'ratings.csv' USING PigStorage(',') AS (MovieId:int, Title:chararray, UserId:double, Ratings:double, GenerId:int);
+
+
+grouped_ratings = GROUP ratings BY MovieId;
+
+
+movie_rating_count = FOREACH grouped_ratings GENERATE group AS MovieId, COUNT(ratings) AS numRatings;
+
+
+DUMP movie_rating_count;
