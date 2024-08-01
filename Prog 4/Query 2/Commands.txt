@@ -1,0 +1,3 @@
+hdfs dfs -put maxtemp.pig    
+                                                                                                                           
+pig maxtemp.pig

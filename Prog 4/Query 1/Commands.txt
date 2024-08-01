@@ -1,0 +1,3 @@
+hdfs dfs -put group_by_year.pig    
+                                                                                                                           
+pig group_by_year.pig
