@@ -1,0 +1,15 @@
+mkdir folder1
+
+javac -classpath $(hadoop classpath) -d folder M1.java R1.java Driver.java
+
+jar -cvf Driver.jar -C folder1/ .
+
+hdfs dfs -mkdir /input1
+
+hdfs dfs -put dataset124.csv /input1/data1.csv
+
+hadoop jar Driver.jar Driver /input1 /output1
+
+hdfs dfs -ls /output1
+
+hdfs dfs -cat /output1/part-r-00000 ‎
