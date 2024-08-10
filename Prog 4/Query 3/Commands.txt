@@ -1,0 +1,3 @@
+hdfs dfs -put avg1.pig    
+                                                                                                                           
+pig avg1.pig
