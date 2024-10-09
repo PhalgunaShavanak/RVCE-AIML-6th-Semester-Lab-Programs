@@ -13,3 +13,6 @@ hadoop jar Driver.jar Driver /input1 /output1
 hdfs dfs -ls /output1
 
 hdfs dfs -cat /output1/part-r-00000 ‎
+
+hadoop job -status <jobId>
+hadoop job -kill $jobId
